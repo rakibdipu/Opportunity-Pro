@@ -325,21 +325,21 @@ function renderRows(items) {
   }
 
   if (activeTrack === "internships") {
-    resultsBody.innerHTML = items.map((item, idx) => {
+    resultsBody.innerHTML = items.map((item) => {
       const bookmarked = isBookmarked(item.id, item.link);
-      const applyBtn = item.link ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer" class="btn-ghost" style="padding: 0.25rem 0.55rem; font-size: 0.72rem;">Apply ↗</a>` : "";
-      const aiBtn = `<button class="btn-primary" style="padding: 0.25rem 0.55rem; font-size: 0.72rem; margin-left: 0.25rem;" onclick='openAiModalFor(${JSON.stringify(item).replace(/'/g, "&#39;")}, "cover_letter")'>✨ AI Letter</button>`;
-      const detailBtn = `<button class="btn-secondary" style="padding: 0.25rem 0.45rem; font-size: 0.72rem; margin-left: 0.25rem;" onclick='openDetailModal(${JSON.stringify(item).replace(/'/g, "&#39;")})'>🔍</button>`;
+      const applyBtn = item.link ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer" class="btn-secondary" style="padding: 0.35rem 0.65rem; font-size: 0.72rem; text-decoration: none;">Apply ↗</a>` : "";
+      const aiBtn = `<button class="btn-primary" style="padding: 0.35rem 0.65rem; font-size: 0.72rem; margin-left: 0.35rem;" onclick='openAiModalFor(${JSON.stringify(item).replace(/'/g, "&#39;")}, "cover_letter")'>✨ AI Letter</button>`;
+      const detailBtn = `<button class="btn-secondary" style="padding: 0.35rem 0.55rem; font-size: 0.72rem; margin-left: 0.35rem;" title="View Full Details" onclick='openDetailModal(${JSON.stringify(item).replace(/'/g, "&#39;")})'>🔍</button>`;
       const statusBadge = `<span class="priority-badge ${item.status === 'Upcoming' ? 'priority-Medium' : 'priority-High'}">${escapeHtml(item.status || 'Open')}</span>`;
 
       return `
         <tr>
           <td><button class="bookmark-btn ${bookmarked ? 'active' : ''}" onclick='toggleBookmark(${JSON.stringify(item).replace(/'/g, "&#39;")})'>★</button></td>
-          <td><strong style="color: var(--text);">${escapeHtml(item.title)}</strong></td>
-          <td>${escapeHtml(item.institution_or_company || item.company || '—')}</td>
+          <td><strong style="color: var(--text); font-size: 0.85rem;">${escapeHtml(item.title)}</strong></td>
+          <td style="color: #e2e8f0; font-weight: 500;">${escapeHtml(item.institution_or_company || item.company || '—')}</td>
           <td><span class="source-tag">${escapeHtml(item.location || 'Remote')}</span></td>
-          <td>${statusBadge} <span style="font-size: 0.75rem; color: var(--text-muted); margin-left: 0.3rem;">${escapeHtml(item.deadline || 'Rolling')}</span></td>
-          <td style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--green);">${escapeHtml(item.stipend_amount || 'Paid Stipend')}</td>
+          <td>${statusBadge} <span style="font-size: 0.72rem; color: var(--text-dim); margin-left: 0.3rem;">${escapeHtml(item.deadline || 'Rolling')}</span></td>
+          <td style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-emerald); font-weight: 600;">${escapeHtml(item.stipend_amount || 'Paid Stipend')}</td>
           <td style="text-align: right; white-space: nowrap;">${applyBtn}${aiBtn}${detailBtn}</td>
         </tr>
       `;
@@ -347,19 +347,19 @@ function renderRows(items) {
   } else if (activeTrack === "ra") {
     resultsBody.innerHTML = items.map((item) => {
       const bookmarked = isBookmarked(item.id, item.link);
-      const labBtn = item.link ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer" class="btn-ghost" style="padding: 0.25rem 0.55rem; font-size: 0.72rem;">Lab Link ↗</a>` : "";
-      const aiBtn = `<button class="btn-primary" style="padding: 0.25rem 0.55rem; font-size: 0.72rem; margin-left: 0.25rem;" onclick='openAiModalFor(${JSON.stringify(item).replace(/'/g, "&#39;")}, "cold_email_professor")'>✉️ Cold Email</button>`;
-      const detailBtn = `<button class="btn-secondary" style="padding: 0.25rem 0.45rem; font-size: 0.72rem; margin-left: 0.25rem;" onclick='openDetailModal(${JSON.stringify(item).replace(/'/g, "&#39;")})'>🔍</button>`;
+      const labBtn = item.link ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer" class="btn-secondary" style="padding: 0.35rem 0.65rem; font-size: 0.72rem; text-decoration: none;">Lab Link ↗</a>` : "";
+      const aiBtn = `<button class="btn-primary" style="padding: 0.35rem 0.65rem; font-size: 0.72rem; margin-left: 0.35rem;" onclick='openAiModalFor(${JSON.stringify(item).replace(/'/g, "&#39;")}, "cold_email_professor")'>✉️ Cold Email</button>`;
+      const detailBtn = `<button class="btn-secondary" style="padding: 0.35rem 0.55rem; font-size: 0.72rem; margin-left: 0.35rem;" title="View Full Details" onclick='openDetailModal(${JSON.stringify(item).replace(/'/g, "&#39;")})'>🔍</button>`;
       
       return `
         <tr>
           <td><button class="bookmark-btn ${bookmarked ? 'active' : ''}" onclick='toggleBookmark(${JSON.stringify(item).replace(/'/g, "&#39;")})'>★</button></td>
-          <td><strong style="color: var(--text);">${escapeHtml(item.title)}</strong></td>
-          <td>${escapeHtml(item.institution_or_company)} <br><span style="font-size: 0.7rem; color: var(--text-dim);">${escapeHtml(item.lab_name || '')}</span></td>
-          <td style="color: #c084fc; font-weight: 500;">${escapeHtml(item.professor_name || 'Faculty Committee')}</td>
+          <td><strong style="color: var(--text); font-size: 0.85rem;">${escapeHtml(item.title)}</strong></td>
+          <td><span style="color: #e2e8f0; font-weight: 500;">${escapeHtml(item.institution_or_company)}</span><br><span style="font-size: 0.7rem; color: var(--text-dim);">${escapeHtml(item.lab_name || '')}</span></td>
+          <td style="color: #c084fc; font-weight: 600; font-size: 0.8rem;">${escapeHtml(item.professor_name || 'Faculty Committee')}</td>
           <td><span class="source-tag">${escapeHtml(item.research_domain || 'General')}</span></td>
-          <td style="color: var(--green); font-size: 0.75rem;">${escapeHtml(item.stipend_amount || item.funding_type || 'Fully Funded')}</td>
-          <td style="font-size: 0.75rem; color: var(--amber);">${escapeHtml(item.deadline || 'Open')}</td>
+          <td style="color: var(--accent-emerald); font-size: 0.75rem; font-weight: 600;">${escapeHtml(item.stipend_amount || item.funding_type || 'Fully Funded')}</td>
+          <td style="font-size: 0.75rem; color: var(--accent-gold); font-family: var(--font-mono);">${escapeHtml(item.deadline || 'Open')}</td>
           <td style="text-align: right; white-space: nowrap;">${labBtn}${aiBtn}${detailBtn}</td>
         </tr>
       `;
@@ -368,21 +368,21 @@ function renderRows(items) {
     // grad scholarships
     resultsBody.innerHTML = items.map((item) => {
       const bookmarked = isBookmarked(item.id, item.link);
-      const applyBtn = item.link ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer" class="btn-ghost" style="padding: 0.25rem 0.55rem; font-size: 0.72rem;">Portal ↗</a>` : "";
-      const aiBtn = `<button class="btn-primary" style="padding: 0.25rem 0.55rem; font-size: 0.72rem; margin-left: 0.25rem;" onclick='openAiModalFor(${JSON.stringify(item).replace(/'/g, "&#39;")}, "sop")'>📝 SOP Draft</button>`;
-      const detailBtn = `<button class="btn-secondary" style="padding: 0.25rem 0.45rem; font-size: 0.72rem; margin-left: 0.25rem;" onclick='openDetailModal(${JSON.stringify(item).replace(/'/g, "&#39;")})'>🔍</button>`;
+      const applyBtn = item.link ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer" class="btn-secondary" style="padding: 0.35rem 0.65rem; font-size: 0.72rem; text-decoration: none;">Portal ↗</a>` : "";
+      const aiBtn = `<button class="btn-primary" style="padding: 0.35rem 0.65rem; font-size: 0.72rem; margin-left: 0.35rem;" onclick='openAiModalFor(${JSON.stringify(item).replace(/'/g, "&#39;")}, "sop")'>📝 SOP Draft</button>`;
+      const detailBtn = `<button class="btn-secondary" style="padding: 0.35rem 0.55rem; font-size: 0.72rem; margin-left: 0.35rem;" title="View Full Details" onclick='openDetailModal(${JSON.stringify(item).replace(/'/g, "&#39;")})'>🔍</button>`;
       const matchScore = item.match_score || (item.priority === 'Top' ? 95 : 85);
 
       return `
         <tr>
           <td><button class="bookmark-btn ${bookmarked ? 'active' : ''}" onclick='toggleBookmark(${JSON.stringify(item).replace(/'/g, "&#39;")})'>★</button></td>
-          <td><strong style="color: var(--text);">${escapeHtml(item.title)}</strong></td>
-          <td>${escapeHtml(item.institution_or_company)}</td>
+          <td><strong style="color: var(--text); font-size: 0.85rem;">${escapeHtml(item.title)}</strong></td>
+          <td style="color: #e2e8f0; font-weight: 500;">${escapeHtml(item.institution_or_company)}</td>
           <td><span class="source-tag">${escapeHtml(item.country || item.location || 'Global')}</span></td>
-          <td><span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">${escapeHtml(item.degree_level || "Master's")}</span></td>
-          <td style="color: var(--green); font-size: 0.75rem; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${escapeHtml(item.stipend_amount)}">${escapeHtml(item.stipend_amount || 'Fully Funded')}</td>
+          <td><span style="font-size: 0.75rem; color: #94a3b8; font-weight: 600;">${escapeHtml(item.degree_level || "Master's")}</span></td>
+          <td style="color: var(--accent-emerald); font-size: 0.75rem; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600;" title="${escapeHtml(item.stipend_amount)}">${escapeHtml(item.stipend_amount || 'Fully Funded')}</td>
           <td><div class="match-mini-circle">${matchScore}%</div></td>
-          <td style="font-size: 0.75rem; color: var(--amber);">${escapeHtml(item.deadline || 'Annual')}</td>
+          <td style="font-size: 0.75rem; color: var(--accent-gold); font-family: var(--font-mono);">${escapeHtml(item.deadline || 'Annual')}</td>
           <td style="text-align: right; white-space: nowrap;">${applyBtn}${aiBtn}${detailBtn}</td>
         </tr>
       `;
