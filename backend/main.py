@@ -18,7 +18,11 @@ logger = logging.getLogger(__name__)
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 load_dotenv(PROJECT_ROOT / ".env")
 
-app = FastAPI(title="InternRadar & Academic Opportunities API", version="0.2.0")
+app = FastAPI(
+    title="OpportunityRadar Pro API",
+    description="Unified Multi-Track REST API for Upcoming Internships, RA Lab Openings, Funded Graduate Scholarships, and AI Document Generation.",
+    version="2.0.0"
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -121,9 +125,9 @@ def _filter_seed_data(
 def root() -> dict[str, Any]:
     """Root endpoint providing API information and documentation link."""
     return {
-        "service": "Opportunity Pro & InternRadar Multi-Track API",
+        "service": "OpportunityRadar Pro Multi-Track API",
         "status": "online",
-        "version": "0.2.0",
+        "version": "2.0.0",
         "documentation": "/docs",
         "endpoints": {
             "all_opportunities": "/opportunities",

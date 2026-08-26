@@ -1,4 +1,4 @@
-# Opportunity Pro (InternRadar & Scholarship Tracker Pro)
+# OpportunityRadar Pro
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python">
@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  Unified Global Platform for <strong>Upcoming Internships</strong>, <strong>Research Assistant (RA) Opportunities</strong>, and <strong>Fully Funded Masters & PhD Programs</strong> with built-in AI Cover Letter, Professor Cold Email &amp; Statement of Purpose (SOP) generator.
+  Unified Global Intelligence Platform for <strong>Upcoming Internships</strong>, <strong>Research Assistant (RA) Positions</strong>, and <strong>Fully Funded Masters & PhD Scholarships</strong> with built-in 3-in-1 Gemini AI Document Generator.
 </p>
 
 ---
