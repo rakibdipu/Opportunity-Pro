@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>InternRadar & Scholarship Tracker Pro | Global Opportunities Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  </head>
+  <body>
+
+    <!-- ── AUTH RESTRICTION OVERLAY ── -->
+    <div id="authOverlay" class="auth-overlay hidden">
+      <div class="auth-message">
+        <div class="auth-lock-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <p>ACCESS RESTRICTED</p>
+        <span>Please <a href="login.html">sign in</a> to access your portal</span>
+      </div>
+    </div>
+
+    <div class="dashboard-wrapper">
+
+      <!-- ── SIDEBAR NAVIGATION ── -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <div class="logo">
+            <div class="logo-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <div class="logo-text">
+              <span class="logo-name">OPPORTUNITY PRO</span>
+              <span class="logo-sub">INTERNSHIP & SCHOLARSHIP HUB</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="user-panel">
+          <div class="user-avatar">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          </div>
+          <div class="user-info">
+            <span class="user-label">OPERATOR</span>
+            <span id="userEmail" class="user-email">Guest / Synced</span>
+          </div>
+          <div class="status-dot online" title="Portal active"></div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <div class="nav-section-label">OPPORTUNITY TRACKS</div>
+          <button class="nav-btn active" data-tab="internships">
+            <div class="nav-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </div>
+            <span>Upcoming Internships</span>
+            <span id="badgeInternships" class="track-badge blue">Live</span>
+          </button>
+          
+          <button class="nav-btn" data-tab="ra">
+            <div class="nav-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2v7.31L4.89 17.5A2 2 0 0 0 6.62 20.5h10.76a2 2 0 0 0 1.73-3L14 9.31V2"/></svg>
+            </div>
+            <span>RA Opportunities</span>
+            <span id="badgeRA" class="track-badge purple">Lab</span>
+          </button>
+
+          <button class="nav-btn" data-tab="grad">
+            <div class="nav-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            </div>
+            <span>Funded Masters & PhD</span>
+            <span id="badgeGrad" class="track-badge gold">Funded</span>
+          </button>
+
+          <div class="nav-section-label" style="margin-top: 1rem;">TOOLS & TRACKING</div>
+          <button class="nav-btn" data-tab="tracker">
+            <div class="nav-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            </div>
+            <span>Application Kanban</span>
+          </button>
+
+          <button class="nav-btn" data-tab="bookmarks">
+            <div class="nav-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <span>Saved Bookmarks</span>
+            <span id="bookmarkCount" class="badge">0</span>
+          </button>
+
+          <button class="nav-btn" data-tab="analytics">
+            <div class="nav-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            </div>
+            <span>Global Analytics</span>
+          </button>
+
+          <button class="nav-btn" data-tab="profile">
+            <div class="nav-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <span>Profile & AI Suite</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="sys-status">
+            <div class="sys-status-row">
+              <span class="sys-label">DATABASE</span>
+              <span class="sys-value online-text">CONNECTED</span>
+            </div>
+            <div class="sys-status-row">
+              <span class="sys-label">DATE</span>
+              <span class="sys-value" id="sysDate">—</span>
+            </div>
+          </div>
+          <button id="logoutBtn" class="logout-btn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            LOGOUT
+          </button>
+        </div>
+      </aside>
+
+      <!-- ── MAIN CONTENT AREA ── -->
+      <main class="main-content">
+
+        <!-- TOP BAR -->
+        <header class="top-bar">
+          <div class="top-bar-left">
+            <div class="breadcrumb">
+              <span class="breadcrumb-root">OPPORTUNITY PRO</span>
+              <span class="breadcrumb-sep">/</span>
+              <span id="pageTitle" class="breadcrumb-current">UPCOMING INTERNSHIPS</span>
+            </div>
+          </div>
+          <div class="top-bar-right" style="display: flex; align-items: center; gap: 1rem;">
+            <button id="quickAiBtn" class="btn-primary" style="padding: 0.4rem 0.9rem; font-size: 0.75rem; display: flex; align-items: center; gap: 0.4rem;">
+              <span>✨</span> AI Document Suite
+            </button>
+            <button id="themeToggleBtn" title="Toggle Theme" style="background: transparent; border: none; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%;">
+              <svg id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            </button>
+            <div class="top-clock" id="topClock">00:00:00</div>
+          </div>
+        </header>
+
+        <!-- ══════════════════════════════════════════ -->
+        <!--  OPPORTUNITIES TAB (Internships, RA, Grad) -->
+        <!-- ══════════════════════════════════════════ -->
+        <div id="opportunitiesTab" class="tab-content active">
+          
+          <div class="hero-banner" id="heroBanner">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+              <h1 class="hero-title" id="heroTitle">Upcoming &amp; Live Internships Portal</h1>
+              <p id="heroSubtitle" style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.25rem;">Explore verified global tech, software, robotics, and regional internships with direct apply links.</p>
+              <div class="hero-meta">
+                <div class="hero-meta-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <span id="heroMetaLocation">Global &amp; Local Node</span>
+                </div>
+                <div class="hero-meta-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  <span id="heroMetaStatus">Live Sync Active</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- METRIC CARDS ROW -->
+          <section class="stats" id="statsSection">
+            <article class="stat-card">
+              <div class="stat-card-header">
+                <span class="stat-label">TOTAL OPPORTUNITIES</span>
+                <div class="stat-icon-wrap blue">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                </div>
+              </div>
+              <p id="totalCount" class="metric-value">—</p>
+              <div class="stat-footer">
+                <span class="stat-sub">Active in this track</span>
+              </div>
+            </article>
+
+            <article class="stat-card">
+              <div class="stat-card-header">
+                <span class="stat-label" id="statLabel2">FULLY FUNDED / PAID</span>
+                <div class="stat-icon-wrap green">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+              </div>
+              <p id="fundedCount" class="metric-value">—</p>
+              <div class="stat-footer">
+                <span class="stat-sub">Full Tuition / High Stipend</span>
+              </div>
+            </article>
+
+            <article class="stat-card">
+              <div class="stat-card-header">
+                <span class="stat-label">TOP MATCHES (95%+)</span>
+                <div class="stat-icon-wrap amber">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
+              </div>
+              <p id="topMatchCount" class="metric-value">—</p>
+              <div class="stat-footer">
+                <span class="stat-sub">High alignment with profile</span>
+              </div>
+            </article>
+
+            <article class="stat-card">
+              <div class="stat-card-header">
+                <span class="stat-label">BOOKMARKED</span>
+                <div class="stat-icon-wrap teal">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                </div>
+              </div>
+              <p class="metric-value" id="savedCount">0</p>
+              <div class="stat-footer">
+                <span class="stat-sub">Saved in your pipeline</span>
+              </div>
+            </article>
+          </section>
+
+          <!-- DYNAMIC FILTER PANEL -->
+          <section class="panel">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <div class="panel-indicator"></div>
+                <h2 class="panel-title" id="filterPanelTitle">FILTER &amp; SEARCH OPPORTUNITIES</h2>
+              </div>
+              <p id="status" class="status-badge">READY</p>
+            </div>
+
+            <div class="search-row">
+              <div class="form-group" style="flex: 2;">
+                <label for="keyword">KEYWORD / RESEARCH FIELD / PROFESSOR</label>
+                <input id="keyword" type="text" placeholder="e.g. AI, Robotics, Embedded, IoT, Computer Vision..." />
+              </div>
+              
+              <div class="form-group" id="filterCountryGroup">
+                <label for="countryFilter">COUNTRY / REGION</label>
+                <select id="countryFilter">
+                  <option value="all">All Countries</option>
+                  <option value="USA">United States</option>
+                  <option value="Germany">Germany</option>
+                  <option value="United Kingdom">United Kingdom</option>
+                  <option value="Japan">Japan</option>
+                  <option value="South Korea">South Korea</option>
+                  <option value="Europe">Europe / Multi-country</option>
+                  <option value="Switzerland">Switzerland</option>
+                  <option value="Singapore">Singapore</option>
+                  <option value="Canada">Canada</option>
+                  <option value="Bangladesh">Bangladesh</option>
+                </select>
+              </div>
+
+              <div class="form-group" id="filterFundingGroup">
+                <label for="fundingFilter">FUNDING TYPE</label>
+                <select id="fundingFilter">
+                  <option value="all">All Funding Types</option>
+                  <option value="Fully Funded">Fully Funded (100% + Stipend)</option>
+                  <option value="Full Tuition + Stipend">Full Tuition + Stipend</option>
+                  <option value="Paid">Paid / Hourly</option>
+                  <option value="Partial">Partial Support</option>
+                </select>
+              </div>
+
+              <div class="form-group" id="filterDegreeGroup">
+                <label for="degreeFilter">DEGREE / LEVEL</label>
+                <select id="degreeFilter">
+                  <option value="all">All Levels</option>
+                  <option value="Master">Master's</option>
+                  <option value="PhD">PhD / Direct PhD</option>
+                  <option value="BSc">Undergraduate / BSc</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="sortBy">SORT BY</label>
+                <select id="sortBy">
+                  <option value="latest">Latest First</option>
+                  <option value="deadline_asc">Upcoming Deadline</option>
+                  <option value="company_asc">Institution / Company A–Z</option>
+                  <option value="company_desc">Institution / Company Z–A</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- QUICK DOMAIN CHIPS -->
+            <div class="source-section" style="margin-top: 0.5rem;">
+              <span class="source-section-label">HOT DOMAINS:</span>
+              <div class="source-filters" id="domainChips">
+                <button class="source-toggle active" data-domain="all">All</button>
+                <button class="source-toggle" data-domain="AI">Artificial Intelligence / ML</button>
+                <button class="source-toggle" data-domain="Robotics">Robotics &amp; Autonomous</button>
+                <button class="source-toggle" data-domain="IoT">IoT &amp; Embedded Systems</button>
+                <button class="source-toggle" data-domain="Computer Vision">Computer Vision</button>
+                <button class="source-toggle" data-domain="Cybersecurity">Cybersecurity</button>
+                <button class="source-toggle" data-domain="Software">Software Engineering</button>
+              </div>
+            </div>
+
+            <div class="actions" style="margin-top: 1rem;">
+              <button id="loadBtn" type="button" class="btn-primary">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                SEARCH &amp; APPLY FILTERS
+              </button>
+              <button id="refreshBtn" type="button" class="btn-secondary">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                REFRESH
+              </button>
+              <button id="exportBtn" type="button" class="btn-secondary">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                EXPORT CSV
+              </button>
+              <button id="resetBtn" type="button" class="btn-ghost">RESET</button>
+            </div>
+          </section>
+
+          <!-- DYNAMIC LISTINGS TABLE -->
+          <section class="panel table-panel">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <div class="panel-indicator"></div>
+                <h2 class="panel-title" id="tablePanelTitle">OPPORTUNITY LISTINGS</h2>
+              </div>
+              <div class="table-meta" id="tableMeta"></div>
+            </div>
+            <div class="table-responsive">
+              <table>
+                <thead id="resultsHead">
+                  <!-- Dynamically Rendered Header -->
+                </thead>
+                <tbody id="resultsBody">
+                  <tr>
+                    <td colspan="8" class="empty-state">Loading opportunities...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="pagination" id="pagination"></div>
+          </section>
+        </div>
+
+        <!-- ══════════════════════════════════════════ -->
+        <!--  APPLICATION TRACKER (Kanban Board)        -->
+        <!-- ══════════════════════════════════════════ -->
+        <div id="trackerTab" class="tab-content hidden">
+          <section class="panel">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <div class="panel-indicator"></div>
+                <h2 class="panel-title">APPLICATION PIPELINE TRACKER</h2>
+              </div>
+              <span class="chart-badge">KANBAN</span>
+            </div>
+            <p style="padding: 0 1.5rem 1rem; color: var(--text-muted); font-size: 0.82rem;">Manage your application lifecycle across Internships, RA positions, and Graduate scholarships.</p>
+            <div class="kanban-board" id="kanbanBoard" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.75rem; padding: 0 1.5rem 1.5rem;">
+              <div class="kanban-column" data-status="Saved">
+                <div class="kanban-column-header" style="background: #3b82f6; color: #fff; padding: 0.5rem 0.75rem; border-radius: 6px 6px 0 0; font-size: 0.7rem; font-weight: 600; text-transform: uppercase;">📌 Saved (<span id="countSaved">0</span>)</div>
+                <div class="kanban-items" id="itemsSaved" style="padding: 0.5rem; height: calc(100vh - 280px); overflow-y: auto; background: var(--bg); border: 1px solid var(--border); border-top: none; border-radius: 0 0 6px 6px;"></div>
+              </div>
+              <div class="kanban-column" data-status="Applied">
+                <div class="kanban-column-header" style="background: #f59e0b; color: #fff; padding: 0.5rem 0.75rem; border-radius: 6px 6px 0 0; font-size: 0.7rem; font-weight: 600; text-transform: uppercase;">📤 Applied / Contacted (<span id="countApplied">0</span>)</div>
+                <div class="kanban-items" id="itemsApplied" style="padding: 0.5rem; height: calc(100vh - 280px); overflow-y: auto; background: var(--bg); border: 1px solid var(--border); border-top: none; border-radius: 0 0 6px 6px;"></div>
+              </div>
+              <div class="kanban-column" data-status="Interviewing">
+                <div class="kanban-column-header" style="background: #8b5cf6; color: #fff; padding: 0.5rem 0.75rem; border-radius: 6px 6px 0 0; font-size: 0.7rem; font-weight: 600; text-transform: uppercase;">🎯 Interview / Lab Call (<span id="countInterviewing">0</span>)</div>
+                <div class="kanban-items" id="itemsInterviewing" style="padding: 0.5rem; height: calc(100vh - 280px); overflow-y: auto; background: var(--bg); border: 1px solid var(--border); border-top: none; border-radius: 0 0 6px 6px;"></div>
+              </div>
+              <div class="kanban-column" data-status="Accepted">
+                <div class="kanban-column-header" style="background: #10b981; color: #fff; padding: 0.5rem 0.75rem; border-radius: 6px 6px 0 0; font-size: 0.7rem; font-weight: 600; text-transform: uppercase;">✅ Accepted / Offer (<span id="countAccepted">0</span>)</div>
+                <div class="kanban-items" id="itemsAccepted" style="padding: 0.5rem; height: calc(100vh - 280px); overflow-y: auto; background: var(--bg); border: 1px solid var(--border); border-top: none; border-radius: 0 0 6px 6px;"></div>
+              </div>
+              <div class="kanban-column" data-status="Rejected">
+                <div class="kanban-column-header" style="background: #ef4444; color: #fff; padding: 0.5rem 0.75rem; border-radius: 6px 6px 0 0; font-size: 0.7rem; font-weight: 600; text-transform: uppercase;">❌ Rejected (<span id="countRejected">0</span>)</div>
+                <div class="kanban-items" id="itemsRejected" style="padding: 0.5rem; height: calc(100vh - 280px); overflow-y: auto; background: var(--bg); border: 1px solid var(--border); border-top: none; border-radius: 0 0 6px 6px;"></div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- ══════════════════════════════════════════ -->
+        <!--  BOOKMARKS TAB                             -->
+        <!-- ══════════════════════════════════════════ -->
+        <div id="bookmarksTab" class="tab-content hidden">
+          <section class="panel">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <div class="panel-indicator"></div>
+                <h2 class="panel-title">SAVED BOOKMARKS</h2>
+              </div>
+              <div class="header-actions">
+                <button id="exportBookmarksBtn" class="btn-secondary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  EXPORT
+                </button>
+                <button id="clearBookmarksBtn" class="btn-ghost btn-danger">CLEAR ALL</button>
+              </div>
+            </div>
+            <p class="helper-text" style="padding: 0 1.5rem 1rem;">Saved opportunities from all categories appear below. Use the ★ button to save listings.</p>
+          </section>
+          <section class="panel table-panel">
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width:42px;">#</th>
+                    <th>TRACK</th>
+                    <th>TITLE / PROGRAM</th>
+                    <th>INSTITUTION / COMPANY</th>
+                    <th>LOCATION / COUNTRY</th>
+                    <th>FUNDING &amp; STIPEND</th>
+                    <th>DEADLINE</th>
+                    <th>ACTION</th>
+                  </tr>
+                </thead>
+                <tbody id="bookmarksBody">
+                  <tr>
+                    <td colspan="8" class="empty-state">No bookmarks saved yet</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <!-- ══════════════════════════════════════════ -->
+        <!--  ANALYTICS TAB                             -->
+        <!-- ══════════════════════════════════════════ -->
+        <div id="analyticsTab" class="tab-content hidden">
+          <section class="panel">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <div class="panel-indicator"></div>
+                <h2 class="panel-title">GLOBAL OPPORTUNITY ANALYTICS</h2>
+              </div>
+              <span class="chart-badge">LIVE INSIGHTS</span>
+            </div>
+
+            <div class="analytics-grid" style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 1.5rem; padding: 1.5rem; min-height: calc(100vh - 160px);">
+              <!-- Doughnut: Distribution by Category -->
+              <div class="chart-container" style="background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; display: flex; flex-direction: column;">
+                <div class="chart-header" style="margin-bottom: 1rem;">
+                  <h3 style="color: var(--text); font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Opportunities by Track</h3>
+                </div>
+                <div style="position: relative; flex: 1; width: 100%; min-height: 200px;"><canvas id="categoryChartCanvas"></canvas></div>
+              </div>
+              <!-- Bar: Top Countries -->
+              <div class="chart-container" style="background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; display: flex; flex-direction: column;">
+                <div class="chart-header" style="margin-bottom: 1rem;">
+                  <h3 style="color: var(--text); font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Top Destination Countries</h3>
+                </div>
+                <div style="position: relative; flex: 1; width: 100%; min-height: 200px;"><canvas id="locationChartCanvas"></canvas></div>
+              </div>
+              <!-- Bar: High Demand Research Domains -->
+              <div class="chart-container" style="background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; display: flex; flex-direction: column;">
+                <div class="chart-header" style="margin-bottom: 1rem;">
+                  <h3 style="color: var(--text); font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Top Research &amp; Tech Domains</h3>
+                </div>
+                <div style="position: relative; flex: 1; width: 100%; min-height: 200px;"><canvas id="keywordChartCanvas"></canvas></div>
+              </div>
+              <!-- Doughnut: Funding Breakdown -->
+              <div class="chart-container" style="background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; display: flex; flex-direction: column;">
+                <div class="chart-header" style="margin-bottom: 1rem;">
+                  <h3 style="color: var(--text); font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Funding Type Breakdown</h3>
+                </div>
+                <div style="position: relative; flex: 1; width: 100%; min-height: 200px;"><canvas id="timelineChartCanvas"></canvas></div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- ══════════════════════════════════════════ -->
+        <!--  PROFILE & CV TAB                          -->
+        <!-- ══════════════════════════════════════════ -->
+        <div id="profileTab" class="tab-content hidden">
+          <section class="panel" style="max-width: 850px; margin: 0 auto;">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <div class="panel-indicator"></div>
+                <h2 class="panel-title">YOUR ACADEMIC &amp; CAREER PROFILE</h2>
+              </div>
+            </div>
+            <div style="padding: 1.5rem;">
+              <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem;">Provide your details and paste your resume / research background. Our specialized AI models will use this to generate tailor-made Cover Letters, Cold Emails to Professors, and Statement of Purpose (SOP) drafts.</p>
+              
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem;">
+                <div class="form-group">
+                  <label for="profileFullName">Full Name</label>
+                  <input type="text" id="profileFullName" placeholder="e.g. Shahriar Alom Masud">
+                </div>
+                <div class="form-group">
+                  <label for="profileUniversity">University / Current Institution</label>
+                  <input type="text" id="profileUniversity" placeholder="e.g. University of Frontier Technology, Bangladesh">
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem;">
+                <div class="form-group">
+                  <label for="profileExperience">Experience / Current Level</label>
+                  <select id="profileExperience">
+                    <option value="Undergraduate Student">Undergraduate Student (Final Year)</option>
+                    <option value="Recent Graduate">Recent Graduate (BSc)</option>
+                    <option value="Master's Student">Master's Student (MSc)</option>
+                    <option value="Research Assistant / Junior Engineer">Research Assistant / Junior Engineer</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="profileMajor">Major / Field of Study</label>
+                  <input type="text" id="profileMajor" placeholder="e.g. IoT &amp; Robotics Engineering / CSE / EEE">
+                </div>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 1.5rem;">
+                <label for="profileResumeText">Resume / CV / Research Background (Paste Text)</label>
+                <textarea id="profileResumeText" rows="11" placeholder="Paste your full resume, key projects, published papers, technical skills, and research interests here..." style="width: 100%; padding: 0.8rem; background: rgba(0, 0, 0, 0.25); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: var(--font-mono); font-size: 0.75rem; resize: vertical; line-height: 1.5;"></textarea>
+              </div>
+
+              <div style="display: flex; justify-content: flex-end; align-items: center; gap: 1rem;">
+                <span id="profileSaveStatus" style="color: var(--green); font-size: 0.8rem; display: none;">✓ Profile saved successfully!</span>
+                <button id="saveProfileBtn" class="btn-primary" style="padding: 0.6rem 1.5rem;">💾 Save Profile</button>
+              </div>
+            </div>
+          </section>
+        </div>
+
+      </main>
+    </div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!--  OPPORTUNITY DETAIL MODAL                  -->
+    <!-- ══════════════════════════════════════════ -->
+    <div id="detailModal" class="modal-overlay hidden">
+      <div class="modal-content" style="max-width: 780px;">
+        <button id="closeDetailModal" class="modal-close-btn">✕</button>
+        
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+          <div id="modalMatchCircle" class="match-circle-wrap" style="width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(250, 204, 21, 0.15); border: 2px solid var(--accent); color: var(--accent); font-family: var(--font-mono); font-weight: 700; font-size: 1.1rem;">
+            <span id="modalMatchScore">95%</span>
+          </div>
+          <div>
+            <div id="modalTrackBadge" class="track-badge gold" style="display: inline-block; margin-bottom: 0.3rem;">SCHOLARSHIP</div>
+            <h2 id="modalTitle" style="color: var(--text); font-size: 1.25rem; font-weight: 700; margin: 0; line-height: 1.3;">Program Title</h2>
+            <p id="modalInstitution" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.2rem;">University / Organization</p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+          <div class="detail-box">
+            <span class="detail-box-label">LOCATION / COUNTRY</span>
+            <p id="modalLocation" class="detail-box-val">—</p>
+          </div>
+          <div class="detail-box">
+            <span class="detail-box-label">FUNDING TYPE</span>
+            <p id="modalFunding" class="detail-box-val" style="color: var(--green);">Fully Funded</p>
+          </div>
+          <div class="detail-box">
+            <span class="detail-box-label">DEGREE / LEVEL</span>
+            <p id="modalDegree" class="detail-box-val">—</p>
+          </div>
+          <div class="detail-box">
+            <span class="detail-box-label">APPLICATION DEADLINE</span>
+            <p id="modalDeadline" class="detail-box-val" style="color: var(--amber);">—</p>
+          </div>
+        </div>
+
+        <!-- Academic / RA Specific Section -->
+        <div id="modalProfSection" class="detail-box" style="margin-bottom: 1rem; display: none;">
+          <span class="detail-box-label">PROFESSOR / PI &amp; LAB</span>
+          <p id="modalProfInfo" class="detail-box-val" style="color: #c084fc;">—</p>
+        </div>
+
+        <!-- Benefits Breakdown -->
+        <div class="detail-box" style="margin-bottom: 1rem;">
+          <span class="detail-box-label">STIPEND &amp; BENEFITS BREAKDOWN</span>
+          <p id="modalBenefits" class="detail-box-val" style="line-height: 1.5; color: var(--text);">—</p>
+        </div>
+
+        <!-- Eligibility & Requirements -->
+        <div class="detail-box" style="margin-bottom: 1.5rem;">
+          <span class="detail-box-label">ELIGIBILITY &amp; PREREQUISITES</span>
+          <p id="modalRequirements" class="detail-box-val" style="line-height: 1.5; color: var(--text-muted); font-size: 0.8rem;">—</p>
+        </div>
+
+        <!-- Modal Actions -->
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; border-top: 1px solid var(--border); padding-top: 1.25rem;">
+          <button id="modalAiBtn" class="btn-primary" style="padding: 0.6rem 1.25rem; font-size: 0.8rem;">
+            ✨ Generate AI Application Doc
+          </button>
+          <a id="modalApplyLink" href="#" target="_blank" rel="noopener noreferrer" class="btn-secondary" style="padding: 0.6rem 1.25rem; font-size: 0.8rem; text-decoration: none; color: var(--text);">
+            Official Web Portal ↗
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!--  3-IN-1 AI ACADEMIC & CAREER SUITE MODAL   -->
+    <!-- ══════════════════════════════════════════ -->
+    <div id="aiModal" class="modal-overlay hidden">
+      <div class="modal-content" style="max-width: 800px; max-height: 88vh;">
+        <button id="closeAiModal" class="modal-close-btn">✕</button>
+        
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem;">
+          <div>
+            <h2 style="color: var(--text); font-size: 1.15rem; font-weight: 700; margin: 0;">✨ AI Career &amp; Academic Document Generator</h2>
+            <p id="aiTargetLabel" style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.2rem;">Select doc type and click Generate</p>
+          </div>
+        </div>
+
+        <!-- AI Doc Type Selector Tabs -->
+        <div class="ai-doc-tabs" style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem;">
+          <button class="ai-tab-btn active" data-doctype="cover_letter">📄 Cover Letter (Job/Internship)</button>
+          <button class="ai-tab-btn" data-doctype="cold_email_professor">✉️ Professor Cold Email (RA)</button>
+          <button class="ai-tab-btn" data-doctype="sop">📝 SOP / Motivation Draft (MS/PhD)</button>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="aiLoading" class="hidden" style="text-align: center; padding: 2.5rem 0; color: var(--text-muted);">
+          <div class="loading-spinner" style="width: 28px; height: 28px; margin: 0 auto 0.75rem; border-width: 3px;"></div>
+          <p style="font-size: 0.85rem;">Generating tailored document using Gemini AI...</p>
+        </div>
+
+        <!-- Generated Result View -->
+        <div id="aiContent" class="hidden" style="background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; white-space: pre-wrap; color: var(--text); font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.65; max-height: 380px; overflow-y: auto;"></div>
+
+        <!-- Actions -->
+        <div id="aiActions" class="hidden" style="display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; margin-top: 1.25rem; border-top: 1px solid var(--border); padding-top: 1rem;">
+          <button id="generateAiNowBtn" class="btn-primary" style="font-size: 0.8rem; padding: 0.5rem 1.25rem;">🔄 Regenerate</button>
+          <button id="copyAiBtn" class="btn-secondary" style="font-size: 0.8rem; padding: 0.5rem 1.25rem;">📋 Copy to Clipboard</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="config.js"></script>
+    <script src="supabase-lib.js"></script>
+    <script src="supabase.js"></script>
+    <script src="app.js"></script>
+    <script>
+      // Live Clock
+      function updateClock() {
+        const now = new Date();
+        const time = now.toLocaleTimeString("en-GB", { hour12: false });
+        const date = now.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }).toUpperCase();
+        const el = document.getElementById("topClock");
+        const dateEl = document.getElementById("sysDate");
+        if (el) el.textContent = time;
+        if (dateEl) dateEl.textContent = date;
+      }
+      updateClock();
+      setInterval(updateClock, 1000);
+    </script>
+  </body>
+</html>

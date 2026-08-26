@@ -1,0 +1,15 @@
+[build]
+  publish = "frontend"
+
+# Forward /api requests to Render backend
+[[redirects]]
+  from = "/api/*"
+  to = "https://internrader-backend.onrender.com/:splat" # Updated to match your exact Render app name
+  status = 200
+  force = true
+
+# Fallback for SPA (Single Page Application) routing if needed
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
