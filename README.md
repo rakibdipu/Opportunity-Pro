@@ -39,189 +39,77 @@
 3. Users can bookmark listings, review detailed eligibility & benefits in popups, track status in Kanban, and export to CSV.
 4. Integrated Gemini AI generates personalized Cover Letters, Cold Emails, and SOP drafts based on the applicant's resume.
 
-
 ---
 
-## Features
-
-### Frontend (User Dashboard)
-
-| Feature                 | Description                                                |
-| ----------------------- | ---------------------------------------------------------- |
-| Real-time Data Hub      | Live internship fetching node with dynamic search.         |
-| Advanced Filtering      | Filter opportunities by keyword, location, date, and source.|
-| Bookmarking System      | Users can save internships to their personal profile.      |
-| Pagination              | Efficient client-side navigation of large datasets.        |
-| Professional Theme      | "Dark cards on a light background" with a sleek Hero Banner.|
-| Authentication System   | Full login, signup, and password reset flows via Supabase. |
-
-### Backend (FastAPI)
-
-| Feature                 | Description                                                |
-| ----------------------- | ---------------------------------------------------------- |
-| Fast Data Aggregation   | Asynchronous data fetching across job sources.             |
-| Search & Querying       | Flexible endpoint parameters (`limit`, `keyword`, `location`).|
-| Security                | Configured CORS for Netlify frontend integration.          |
-
----
-
-## Project Structure
+## 📂 Project Structure
 
 ```
-InternRadar/
-│
-├── backend/                         # FastAPI backend
-│   ├── main.py                      # FastAPI app + CORS + router registration
-│   ├── models.py                    # Pydantic models 
-│   ├── supabase_client.py           # Supabase DB integration logic
-│   ├── schema.sql                   # Database table definitions
-│   └── requirements.txt             # Backend dependencies
-│
-├── frontend/                        # Web dashboard (Static HTML/CSS/JS)
-│   ├── index.html                   # Main Monitoring Dashboard
-│   ├── login.html                   # Login Page
-│   ├── signup.html                  # Registration Page
-│   ├── forgot-password.html         # Password Reset Request
-│   ├── reset-password.html          # Password Reset Form
-│   ├── styles.css                   # Global styles & Color Variables
-│   ├── app.js                       # Core dashboard logic (fetching, filtering)
-│   └── supabase-lib.js              # Supabase Auth integration logic
+Opportunity-Pro/
+├── backend/
+│   ├── main.py                  # FastAPI Application & AI Generator Routes
+│   ├── models.py                # Opportunity & Internship Dataclasses
+│   ├── seed_data.py             # 45+ Curated Multi-Track Dataset
+│   ├── sources.py               # Aggregation & Web Scrapers
+│   ├── supabase_client.py       # Supabase Database Client
+│   ├── keyword_filter.py        # Smart keyword matching engine
+│   └── schema.sql               # PostgreSQL Database Schema
+├── frontend/
+│   ├── index.html               # Main Multi-Track Portal Dashboard
+│   ├── app.js                   # Client Logic, Filtering, AI Suite, Kanban
+│   ├── styles.css               # Modern Responsive Theme & Badges
+│   ├── config.js                # API Base URL & Supabase Configuration
+│   ├── login.html               # Authentication Login
+│   └── signup.html              # Registration Form
+├── main.py                      # Daily Scheduled Scraper Runner
+├── render.yaml                  # Render Infrastructure as Code Blueprint
+├── requirements.txt             # Python Dependencies
+└── README.md                    # Documentation
 ```
 
 ---
 
-## Screenshots
-
-### Dashboard Overview
-![Dashboard Preview 1](images/dashboard_preview1.png)
-![Dashboard Preview 2](images/dashboard_preview2.png)
-Shows the main internship listings, hero banner, search filters, and real-time statistics.
-
-### Analytics & Tracking
-![Analytics Dashboard](images/analytist.png)
-![Application Tracker](images/tracker.png)
-![Bookmarks](images/bookmarks.png)
-Comprehensive analytics overview and a kanban-style application tracker for saved internships.
-
-### Profile & AI Features
-![User Profile](images/profile.png)
-![AI Cover Letter Generator](images/ai_cover_latter_generator.png)
-Manage your profile and generate tailored cover letters using Gemini AI.
-
-### Authentication Flow
-![Login Page](images/login.png)
-![Signup Page](images/signup.png)
-![Authentication](images/auth.png)
-Secure authentication pages utilizing the dark card on light background theme.
-
----
-
-## Technology Stack
+## 🛠️ Technology Stack
 
 ### Backend
-| Tool                | Purpose                          |
-| ------------------- | -------------------------------- |
-| FastAPI             | REST API framework               |
-| Python 3.10+        | Core backend language            |
-| Uvicorn             | ASGI server                      |
-| Render              | Cloud deployment                 |
+| Tool | Purpose |
+| :--- | :--- |
+| **FastAPI** | High-performance REST API |
+| **Python 3.11+** | Backend scripting & data parsing |
+| **Uvicorn** | ASGI server |
+| **Render** | Cloud hosting (`https://internradar-backend-4x63.onrender.com`) |
 
 ### Frontend
-| Tool               | Purpose                                       |
-| ------------------ | --------------------------------------------- |
-| HTML5 / CSS3       | Structure and styling (Vanilla CSS variables) |
-| Vanilla JavaScript | API calls, state management, UI rendering     |
-| Netlify            | Static site hosting with auto-deploys         |
+| Tool | Purpose |
+| :--- | :--- |
+| **HTML5 / CSS3** | Dynamic responsive portal with CSS variables |
+| **Vanilla JavaScript** | Asynchronous API fetching & state management |
+| **Chart.js** | Interactive analytics data visualizations |
+| **Netlify** | Global edge hosting with automated deploys |
 
-### Database & Auth
-| Tool          | Purpose                                                  |
-| ------------- | -------------------------------------------------------- |
-| Supabase      | PostgreSQL database + built-in Auth system               |
-| Supabase Auth | Email/password login, token management                   |
-
----
-
-## How It Works
-
-### Step 1 — Authentication
-Users authenticate via the `login.html` or `signup.html` pages. The frontend communicates directly with Supabase via `supabase-lib.js`. Session tokens are stored in `localStorage`.
-
-### Step 2 — Data Fetching
-Upon successful login, `app.js` initializes the dashboard. It fires a `GET` request to `https://internrader-backend.onrender.com/internships`. 
-
-### Step 3 — Filtering & Interaction
-When a user types a keyword or selects a source (e.g., LinkedIn), the dashboard dynamically appends query parameters to the API request, retrieving tailored results. Users can click the bookmark icon on any row to save that internship ID to their Supabase profile.
+### Database & AI
+| Tool | Purpose |
+| :--- | :--- |
+| **Supabase** | PostgreSQL database with Row Level Security |
+| **Gemini AI** | 3-in-1 Cover Letter, Professor Cold Email & SOP generator |
 
 ---
 
-## API Reference
+## 🚀 Deployment
 
-**Base URL:** `https://internrader-backend.onrender.com`
-
-| Method | Endpoint                | Description                            |
-| ------ | ----------------------- | -------------------------------------- |
-| GET    | `/health`               | API health check                       |
-| GET    | `/internships`          | Fetch internships (Query params available) |
-| GET    | `/sources`              | Fetch available job sources            |
-
-### GET /internships — Example Request
-```http
-GET /internships?limit=20&keyword=python&location=remote
-```
+- **Backend API (Render):** `https://internradar-backend-4x63.onrender.com`
+- **Interactive Swagger Docs:** `https://internradar-backend-4x63.onrender.com/docs`
+- **GitHub Repository:** `https://github.com/rakibdipu/Opportunity-Pro`
 
 ---
 
-## Database Schema
+## 👤 Author
 
-![Database Schema](images/database.png)
-
-```sql
-create table profiles (
-  id uuid references auth.users not null primary key,
-  full_name text,
-  student_id text,
-  created_at timestamp with time zone default timezone('utc'::text, now()) not null
-);
-
-create table bookmarks (
-  id bigint generated by default as identity primary key,
-  user_id uuid references auth.users not null,
-  internship_id text not null,
-  internship_title text,
-  company text,
-  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
-  unique(user_id, internship_id)
-);
-```
-
-*(Note: Row Level Security (RLS) is enabled to ensure users can only see their own bookmarks.)*
+**Rakib Dipu**  
+- **GitHub:** [https://github.com/rakibdipu](https://github.com/rakibdipu)  
+- **Repository:** [https://github.com/rakibdipu/Opportunity-Pro](https://github.com/rakibdipu/Opportunity-Pro)
 
 ---
 
-## Deployment
+## 📄 License
 
-### Frontend — Netlify
-- Connected via GitHub integration.
-- Pushes to the `main` branch automatically trigger a deploy.
-- Live URL: `https://internrader.netlify.app`
-
-### Backend — Render
-- Hosted on Render Web Services.
-- Start command: `uvicorn backend.main:app --host 0.0.0.0 --port $PORT`
-- Live URL: `https://internrader-backend.onrender.com`
-
----
-
-## Author
-
-Shahriar Alom Masud  
-B.Sc. Engg. in IoT & Robotics Engineering  
-University of Frontier Technology, Bangladesh  
-Email: shahriar0002@std.uftb.ac.bd  
-LinkedIn: [https://www.linkedin.com/in/shahriar-alom-masud](https://www.linkedin.com/in/shahriar-alom-masud)
-
----
-
-## License
-
-See [LICENSE](LICENSE) file for full MIT License details.
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
