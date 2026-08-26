@@ -117,9 +117,31 @@ def _filter_seed_data(
     return items
 
 
+@app.get("/")
+def root() -> dict[str, Any]:
+    """Root endpoint providing API information and documentation link."""
+    return {
+        "service": "Opportunity Pro & InternRadar Multi-Track API",
+        "status": "online",
+        "version": "0.2.0",
+        "documentation": "/docs",
+        "endpoints": {
+            "all_opportunities": "/opportunities",
+            "upcoming_internships": "/opportunities?category=internship",
+            "ra_positions": "/opportunities?category=ra",
+            "funded_grad_scholarships": "/opportunities?category=masters_phd",
+            "analytics": "/analytics",
+            "ai_generator": "/generate-ai-doc",
+            "cron_sync": "/cron/sync",
+            "health": "/health",
+        },
+    }
+
+
 @app.get("/health")
 def health_check() -> dict[str, str]:
     return {"status": "ok", "version": "0.2.0"}
+
 
 
 # ── MAIN MULTI-CATEGORY OPPORTUNITIES ENDPOINT ──────────────────
